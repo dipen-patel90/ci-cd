@@ -26,7 +26,7 @@ jobs:
         STOREPASSWORD: ${{ secrets.STOREPASSWORD }}
         KEYALIAS: ${{ secrets.KEYALIAS }}
         KEYPASSWORD: ${{ secrets.KEYPASSWORD }}
-      run: echo PROPERTIES_URL=\"$PROPERTIES_URL\" > ./local.properties
+      run: echo STOREFILE=\"$STOREFILE\" > ./local.properties
     - name: Grant execute permission for gradlew
       run: chmod +x gradlew
     - name: Build with Gradle

@@ -19,7 +19,10 @@ jobs:
         java-version: '11'
         distribution: 'temurin'
         cache: gradle
-
+    - name: Access PROPERTIES_URL
+      env:
+        PROPERTIES_URL: ${{ secrets.PROPERTIES_URL }}
+      run: echo PROPERTIES_URL=\"$PROPERTIES_URL\" > ./local.properties
     - name: Grant execute permission for gradlew
       run: chmod +x gradlew
     - name: Build with Gradle

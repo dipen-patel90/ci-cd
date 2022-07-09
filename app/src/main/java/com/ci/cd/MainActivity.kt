@@ -9,6 +9,6 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-//        findViewById<TextView>(R.id.local_properties).text = BuildConfig.LOCAL_PROPERTIES
+        findViewById<TextView>(R.id.local_properties).text = BuildConfig.PROPERTIES_URL
     }
 }

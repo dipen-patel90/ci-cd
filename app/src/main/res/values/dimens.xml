@@ -1,0 +1,4 @@
+<resources>
+    <dimen name="title_size">24sp</dimen>
+    <dimen name="subtitle_size">18sp</dimen>
+</resources>

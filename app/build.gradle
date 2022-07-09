@@ -3,6 +3,21 @@ plugins {
     id 'org.jetbrains.kotlin.android'
 }
 
+def getLocalProperties(String key) {
+    Properties properties = new Properties()
+    File file = project.rootProject.file('local.properties')
+    if (file.exists()) {
+        properties.load(file.newDataInputStream())
+        return properties.getProperty(key)
+    } else {
+        return ""
+    }
+}
+
+def getSystemOrLocalProperty(String propertyKey, String defaultLocalPropertyKey = "") {
+    return System.getenv(propertyKey) ?: getLocalProperties(defaultLocalPropertyKey == "" ? propertyKey : defaultLocalPropertyKey)
+}
+
 android {
     compileSdk 32
 
@@ -20,6 +35,10 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+
+        buildTypes.each {
+            it.buildConfigField 'String', 'LOCAL_PROPERTIES', getSystemOrLocalProperty("LOCAL_PROPERTIES")
         }
     }
 

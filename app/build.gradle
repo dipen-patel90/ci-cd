@@ -39,16 +39,16 @@ android {
 
     signingConfigs {
         debug {
-            storeFile file(getProperties("STOREFILE"))
-            storePassword getProperties("STOREPASSWORD")
-            keyAlias getProperties("KEYALIAS")
-            keyPassword getProperties("KEYPASSWORD")
+            storeFile file(getSystemOrLocalProperty("STOREFILE"))
+            storePassword getSystemOrLocalProperty("STOREPASSWORD")
+            keyAlias getSystemOrLocalProperty("KEYALIAS")
+            keyPassword getSystemOrLocalProperty("KEYPASSWORD")
         }
         release {
-            storeFile file(getProperties("STOREFILE"))
-            storePassword getProperties("STOREPASSWORD")
-            keyAlias getProperties("KEYALIAS")
-            keyPassword getProperties("KEYPASSWORD")
+            storeFile file(getSystemOrLocalProperty("STOREFILE"))
+            storePassword getSystemOrLocalProperty("STOREPASSWORD")
+            keyAlias getSystemOrLocalProperty("KEYALIAS")
+            keyPassword getSystemOrLocalProperty("KEYPASSWORD")
         }
     }
 

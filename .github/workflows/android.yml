@@ -20,22 +20,22 @@ jobs:
         java-version: '11'
         distribution: 'temurin'
         cache: gradle
-    - name: Access PROPERTIES_URL
+    - name: Access STOREFILE
       env:
         STOREFILE: ${{ secrets.STOREFILE }}
-        STOREPASSWORD: ${{ secrets.STOREPASSWORD }}
-        KEYALIAS: ${{ secrets.KEYALIAS }}
-        KEYPASSWORD: ${{ secrets.KEYPASSWORD }}
-      run: echo STOREFILE=\"$STOREFILE\" > ./local.properties
-    - name: Grant execute permission for gradlew
-      run: chmod +x gradlew
-    - name: Build with Gradle
-      run: ./gradlew build
-    - name: Assemble Release Bundle
-      run: |
-          ./gradlew bundleRelease
-    - name: Upload APK
-      uses: actions/upload-artifact@v3.1.0
-      with:
-        name: app
-        path: app/build/outputs/bundle
+#         STOREPASSWORD: ${{ secrets.STOREPASSWORD }}
+#         KEYALIAS: ${{ secrets.KEYALIAS }}
+#         KEYPASSWORD: ${{ secrets.KEYPASSWORD }}
+      run: echo $STOREFILE 
+#     - name: Grant execute permission for gradlew
+#       run: chmod +x gradlew
+#     - name: Build with Gradle
+#       run: ./gradlew build
+#     - name: Assemble Release Bundle
+#       run: |
+#           ./gradlew bundleRelease
+#     - name: Upload APK
+#       uses: actions/upload-artifact@v3.1.0
+#       with:
+#         name: app
+#         path: app/build/outputs/bundle

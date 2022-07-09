@@ -20,18 +20,22 @@ jobs:
         java-version: '11'
         distribution: 'temurin'
         cache: gradle        
-    - name: Accessing properties and Writing to local properties
+    - name: Access STOREFILE
       env:
         STOREFILE: ${{ secrets.STOREFILE }}
+      run: echo -e "\nSTOREFILE=$STOREFILE" >> local.properties
+    - name: Access STOREFILE
+      env:
         STOREPASSWORD: ${{ secrets.STOREPASSWORD }}
-        KEYALIAS: ${{ secrets.KEYALIAS }}
+      run: echo -e "\nSTOREPASSWORD=$STOREPASSWORD" >> local.properties
+    - name: Access KEYALIAS
+      env:
+        STOREFILE: ${{ secrets.KEYALIAS }}
+      run: echo -e "\nKEYALIAS=$KEYALIAS" >> local.properties
+    - name: Access KEYPASSWORD
+      env:
         KEYPASSWORD: ${{ secrets.KEYPASSWORD }}
-    - run: touch local.properties
-    - run: echo -e "\nSTOREFILE=$STOREFILE" >> local.properties
-    - run: echo -e "\nSTOREPASSWORD=$STOREPASSWORD" >> local.properties
-    - run: echo -e "\nKEYALIAS=$KEYALIAS" >> local.properties
-    - run: echo -e "\nKEYPASSWORD=$KEYPASSWORD" >> local.properties
-    - run: cat local.properties
+      run: echo -e "\nKEYPASSWORD=$KEYPASSWORD" >> local.properties
     - name: Grant execute permission for gradlew
       run: chmod +x gradlew
     - name: Build with Gradle

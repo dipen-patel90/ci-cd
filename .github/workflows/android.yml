@@ -24,13 +24,13 @@ jobs:
       env:
         STOREFILE: ${{ secrets.STOREFILE }}
       run: echo -e "\nSTOREFILE=$STOREFILE" >> local.properties
-    - name: Access STOREFILE
+    - name: Access STOREPASSWORD
       env:
         STOREPASSWORD: ${{ secrets.STOREPASSWORD }}
       run: echo -e "\nSTOREPASSWORD=$STOREPASSWORD" >> local.properties
     - name: Access KEYALIAS
       env:
-        STOREFILE: ${{ secrets.KEYALIAS }}
+        KEYALIAS: ${{ secrets.KEYALIAS }}
       run: echo -e "\nKEYALIAS=$KEYALIAS" >> local.properties
     - name: Access KEYPASSWORD
       env:

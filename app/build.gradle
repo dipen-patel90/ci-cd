@@ -44,7 +44,7 @@ android {
         }
 
         buildTypes.each {
-            it.buildConfigField 'String', 'LOCAL_PROPERTIES', getSystemOrLocalProperty("LOCAL_PROPERTIES")
+//            it.buildConfigField 'String', 'LOCAL_PROPERTIES', getSystemOrLocalProperty("LOCAL_PROPERTIES")
         }
     }
 

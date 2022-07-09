@@ -1,10 +1,11 @@
 name: Android CI
 
 on:
-  push:
-    branches: [ "dev", "main" ]
-  pull_request:
-    branches: [ "dev", "main" ]
+  workflow_dispatch:
+#  push:
+#    branches: [ "dev", "main" ]
+#  pull_request:
+#    branches: [ "dev", "main" ]
 
 jobs:
   build:
@@ -21,14 +22,20 @@ jobs:
         cache: gradle
     - name: Access PROPERTIES_URL
       env:
-        PROPERTIES_URL: ${{ secrets.PROPERTIES_URL }}
+        STOREFILE: ${{ secrets.STOREFILE }}
+        STOREPASSWORD: ${{ secrets.STOREPASSWORD }}
+        KEYALIAS: ${{ secrets.KEYALIAS }}
+        KEYPASSWORD: ${{ secrets.KEYPASSWORD }}
       run: echo PROPERTIES_URL=\"$PROPERTIES_URL\" > ./local.properties
     - name: Grant execute permission for gradlew
       run: chmod +x gradlew
     - name: Build with Gradle
-      run: ./gradlew assembleRelease --stacktrace
+      run: ./gradlew build
+    - name: Assemble Release Bundle
+      run: |
+          ./gradlew bundleRelease
     - name: Upload APK
       uses: actions/upload-artifact@v3.1.0
       with:
         name: app
-        path: app/build/outputs/apk
+        path: app/build/outputs/bundle

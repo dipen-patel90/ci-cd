@@ -3,6 +3,12 @@ plugins {
     id 'org.jetbrains.kotlin.android'
 }
 
+def getProperties(String key) {
+    Properties properties = new Properties()
+    properties.load(project.rootProject.file('local.properties').newDataInputStream())
+    return properties.getProperty(key)
+}
+
 def getLocalProperties(String key) {
     Properties properties = new Properties()
     File file = project.rootProject.file('local.properties')
@@ -31,6 +37,21 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
+    signingConfigs {
+        debug {
+            storeFile file(getProperties("STOREFILE"))
+            storePassword getProperties("STOREPASSWORD")
+            keyAlias getProperties("KEYALIAS")
+            keyPassword getProperties("KEYPASSWORD")
+        }
+        release {
+            storeFile file(getProperties("STOREFILE"))
+            storePassword getProperties("STOREPASSWORD")
+            keyAlias getProperties("KEYALIAS")
+            keyPassword getProperties("KEYPASSWORD")
+        }
+    }
+
     variantFilter { variant ->
         if (variant.name == "prodDebug") {
             setIgnore(true)
@@ -38,13 +59,14 @@ android {
     }
 
     buildTypes {
+        debug {
+            signingConfig signingConfigs.debug
+        }
+
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-        }
-
-        buildTypes.each {
-            it.buildConfigField 'String', 'PROPERTIES_URL', getSystemOrLocalProperty("PROPERTIES_URL")
+            signingConfig signingConfigs.release
         }
     }
 
@@ -70,7 +92,7 @@ android {
 
 dependencies {
 
-    implementation 'androidx.core:core-ktx:1.7.0'
+    implementation 'androidx.core:core-ktx:1.8.0'
     implementation 'androidx.appcompat:appcompat:1.4.2'
     implementation 'com.google.android.material:material:1.6.1'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'

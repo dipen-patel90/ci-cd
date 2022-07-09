@@ -39,15 +39,15 @@ android {
 
     signingConfigs {
         debug {
-//            storeFile file(rootDir.getCanonicalPath() + '/app/' + getSystemOrLocalProperty("STOREFILE"))
-            storeFile file(rootDir.getCanonicalPath() + '/app/dipenptl1.keystore')
+            storeFile file(getSystemOrLocalProperty("STOREFILE"))
+//            storeFile file(rootDir.getCanonicalPath() + '/app/dipenptl1.keystore')
             storePassword getSystemOrLocalProperty("STOREPASSWORD")
             keyAlias getSystemOrLocalProperty("KEYALIAS")
             keyPassword getSystemOrLocalProperty("KEYPASSWORD")
         }
         release {
-//            storeFile file(rootDir.getCanonicalPath() + '/app/' + getSystemOrLocalProperty("STOREFILE"))
-            storeFile file(rootDir.getCanonicalPath() + '/app/dipenptl1.keystore')
+            storeFile file(getSystemOrLocalProperty("STOREFILE"))
+//            storeFile file(rootDir.getCanonicalPath() + '/app/dipenptl1.keystore')
             storePassword getSystemOrLocalProperty("STOREPASSWORD")
             keyAlias getSystemOrLocalProperty("KEYALIAS")
             keyPassword getSystemOrLocalProperty("KEYPASSWORD")

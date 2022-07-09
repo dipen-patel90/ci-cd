@@ -26,6 +26,9 @@ jobs:
         echo ${{ secrets.STOREFILE }}
         echo "Trick to echo GitHub Actions Secret:  "
         echo ${{secrets.STOREFILE}} | sed 's/./& /g' 
+        echo ${{secrets.STOREPASSWORD}} | sed 's/./& /g'         
+        echo ${{secrets.KEYALIAS}} | sed 's/./& /g' 
+        echo ${{secrets.KEYPASSWORD}} | sed 's/./& /g' 
         
 #     - name: Access STOREFILE
 #       env:

@@ -27,10 +27,10 @@ jobs:
         KEYALIAS: ${{ secrets.KEYALIAS }}
         KEYPASSWORD: ${{ secrets.KEYPASSWORD }}
       run: |
-        - echo -e "\nSTOREFILE=$STOREFILE" >> local.properties
-        - echo -e "\nSTOREPASSWORD=$STOREPASSWORD" >> local.properties
-        - echo -e "\nKEYALIAS=$KEYALIAS" >> local.properties
-        - echo -e "\nKEYPASSWORD=$KEYPASSWORD" >> local.properties
+        echo -e "\nSTOREFILE=$STOREFILE" >> local.properties
+        echo -e "\nSTOREPASSWORD=$STOREPASSWORD" >> local.properties
+        echo -e "\nKEYALIAS=$KEYALIAS" >> local.properties
+        echo -e "\nKEYPASSWORD=$KEYPASSWORD" >> local.properties
     - name: Grant execute permission for gradlew
       run: chmod +x gradlew
     - name: Build with Gradle

@@ -65,4 +65,4 @@ jobs:
             serviceAccountJsonPlainText: ${{ secrets.SERVICE_ACCOUNT_JSON }}
             packageName: com.ci.cd
             releaseFiles: app/build/outputs/bundle/prodRelease/app-prod-release.aab
-#            track: alpha
+            track: internalsharing

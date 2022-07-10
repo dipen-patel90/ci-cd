@@ -1,11 +1,11 @@
 name: Android CI
 
 on:
-#   workflow_dispatch:
- push:
-   branches: [ "dev", "main" ]
- pull_request:
-   branches: [ "dev", "main" ]
+  #   workflow_dispatch:
+  push:
+    branches: [ "dev", "main" ]
+  pull_request:
+    branches: [ "dev", "main" ]
 
 jobs:
   build:
@@ -13,41 +13,56 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v3
-    - name: set up JDK 11
-      uses: actions/setup-java@v3
-      with:
-        java-version: '11'
-        distribution: 'temurin'
-        cache: gradle        
-    - name: Access Secret and Write to properties
-      env:
-        STOREFILE: ${{ secrets.STOREFILE }}
-        STOREPASSWORD: ${{ secrets.STOREPASSWORD }}
-        KEYALIAS: ${{ secrets.KEYALIAS }}
-        KEYPASSWORD: ${{ secrets.KEYPASSWORD }}
-      run: |
-        echo -e "\nSTOREFILE=$STOREFILE" >> local.properties
-        echo -e "\nSTOREPASSWORD=$STOREPASSWORD" >> local.properties
-        echo -e "\nKEYALIAS=$KEYALIAS" >> local.properties
-        echo -e "\nKEYPASSWORD=$KEYPASSWORD" >> local.properties
-    - name: Grant execute permission for gradlew
-      run: chmod +x gradlew
-    - name: Build with Gradle
-      run: ./gradlew build
-    - name: Assemble Release Bundle
-      run: |
+      - uses: actions/checkout@v3
+      - name: set up JDK 11
+        uses: actions/setup-java@v3
+        with:
+          java-version: '11'
+          distribution: 'temurin'
+          cache: gradle
+      - name: Access Secret and Write to properties
+        env:
+          STOREFILE: ${{ secrets.STOREFILE }}
+          STOREPASSWORD: ${{ secrets.STOREPASSWORD }}
+          KEYALIAS: ${{ secrets.KEYALIAS }}
+          KEYPASSWORD: ${{ secrets.KEYPASSWORD }}
+        run: |
+          echo -e "\nSTOREFILE=$STOREFILE" >> local.properties
+          echo -e "\nSTOREPASSWORD=$STOREPASSWORD" >> local.properties
+          echo -e "\nKEYALIAS=$KEYALIAS" >> local.properties
+          echo -e "\nKEYPASSWORD=$KEYPASSWORD" >> local.properties
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+      - name: Build with Gradle
+        run: ./gradlew build
+      - name: Assemble Release Bundle
+        run: |
           ./gradlew bundleRelease
-    - name: Sign Android release
-      uses: r0adkll/sign-android-release@v1
-      with:
-        releaseDirectory: app/build/outputs/bundle/prodRelease
-        signingKeyBase64: ${{ secrets.SIGNIN_KEY_BASE64 }}
-        alias: ${{ secrets.KEYALIAS }}
-        keyStorePassword: ${{ secrets.STOREPASSWORD }}
-        keyPassword: ${{ secrets.KEYPASSWORD }}
-    - name: Upload APK
-      uses: actions/upload-artifact@v3.1.0
-      with:
-        name: app
-        path: app/build/outputs/bundle/prodRelease/app-prod-release.aab
+      - name: Sign Android release
+        uses: r0adkll/sign-android-release@v1
+        with:
+          releaseDirectory: app/build/outputs/bundle/prodRelease
+          signingKeyBase64: ${{ secrets.SIGNIN_KEY_BASE64 }}
+          alias: ${{ secrets.KEYALIAS }}
+          keyStorePassword: ${{ secrets.STOREPASSWORD }}
+          keyPassword: ${{ secrets.KEYPASSWORD }}
+      - name: Upload APK
+        uses: actions/upload-artifact@v3.1.0
+        with:
+          name: app
+          path: app/build/outputs/bundle/prodRelease/app-prod-release.aab
+#      - name: Tag Release
+#        run: |
+#          version_name=${GITHUB_REF##*/}
+#          echo "Tagging release with tag $version_name"
+#          git tag $version_name release/$version_name
+#          git push origin --tags
+      - name: Create service_account.json
+        run: echo '${{ secrets.SERVICE_ACCOUNT_JSON }}' > service_account.json
+      - name: Deploy to Alpha
+        uses: r0adkll/upload-google-play@v1.0.17
+        with:
+            serviceAccountJson: service_account.json
+            packageName: com.ci.cd
+            releaseFile: app/build/outputs/bundle/prodRelease/app-prod-release.aab
+            track: alpha

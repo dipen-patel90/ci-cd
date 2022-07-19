@@ -46,24 +46,24 @@ jobs:
           alias: ${{ secrets.KEYALIAS }}
           keyStorePassword: ${{ secrets.STOREPASSWORD }}
           keyPassword: ${{ secrets.KEYPASSWORD }}
-      - name: Upload APK
-        uses: actions/upload-artifact@v3.1.0
-        with:
-          name: app
-          path: app/build/outputs/bundle/prodRelease/app-prod-release.aab
-      #      - name: Tag Release
-      #        run: |
-      #          version_name=${GITHUB_REF##*/}
-      #          echo "Tagging release with tag $version_name"
-      #          git tag $version_name release/$version_name
-      #          git push origin --tags
-      - name: Create service_account.json
-        run: echo '${{ secrets.SERVICE_ACCOUNT_JSON }}' > service_account.json
-      - name: Deploy to Alpha
-        uses: r0adkll/upload-google-play@v1.0.17
-        with:
-          serviceAccountJsonPlainText: ${{ secrets.SERVICE_ACCOUNT_JSON }}
-          packageName: com.ci.cd
-          releaseFiles: app/build/outputs/bundle/prodRelease/app-prod-release.aab
-          track: alpha
-#            track: internalsharing
+#      - name: Upload APK
+#        uses: actions/upload-artifact@v3.1.0
+#        with:
+#          name: app
+#          path: app/build/outputs/bundle/prodRelease/app-prod-release.aab
+#      #      - name: Tag Release
+#      #        run: |
+#      #          version_name=${GITHUB_REF##*/}
+#      #          echo "Tagging release with tag $version_name"
+#      #          git tag $version_name release/$version_name
+#      #          git push origin --tags
+#      - name: Create service_account.json
+#        run: echo '${{ secrets.SERVICE_ACCOUNT_JSON }}' > service_account.json
+#      - name: Deploy to Alpha
+#        uses: r0adkll/upload-google-play@v1.0.17
+#        with:
+#          serviceAccountJsonPlainText: ${{ secrets.SERVICE_ACCOUNT_JSON }}
+#          packageName: com.ci.cd
+#          releaseFiles: app/build/outputs/bundle/prodRelease/app-prod-release.aab
+#          track: alpha
+##            track: internalsharing

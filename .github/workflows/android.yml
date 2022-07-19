@@ -17,7 +17,8 @@ jobs:
         id: decode_keystore
         uses: timheuer/base64-to-file@v1
         with:
-          fileName: 'keystore/your_signing_keystore.jks'
+          fileName: 'dipenptl1.jks'
+          fileDir: './main/folder/subfolder/'
           encodedString: ${{ secrets.SIGNIN_KEY_BASE64 }}
       - uses: actions/checkout@v3
       - name: set up JDK 11
@@ -28,7 +29,7 @@ jobs:
           cache: gradle
       - name: Access Secret and Write to properties
         env:
-          STOREFILE: 'keystore/your_signing_keystore.jks'
+          STOREFILE: ${{ steps.decode_keystore.outputs.filePath }}
           STOREPASSWORD: ${{ secrets.STOREPASSWORD }}
           KEYALIAS: ${{ secrets.KEYALIAS }}
           KEYPASSWORD: ${{ secrets.KEYPASSWORD }}
